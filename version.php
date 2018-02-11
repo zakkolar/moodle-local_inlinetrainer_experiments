@@ -25,3 +25,6 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->version   = 2018021100;
 $plugin->requires  = 2016052305;
 $plugin->component = 'local_inlinetrainer_experiments';
+$plugin->dependencies = array(
+    'local_inlinetrainer' => ANY_VERSION
+);
