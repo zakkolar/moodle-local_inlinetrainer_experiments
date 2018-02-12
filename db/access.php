@@ -5,5 +5,9 @@ $capabilities = array(
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
         )
+    ), 'local/inlinetrainer_experiments:experiment_researcher' => array(
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'riskbitmask' => RISK_PERSONAL,
     )
 );
