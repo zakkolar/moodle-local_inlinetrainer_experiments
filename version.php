@@ -22,7 +22,7 @@
  
 defined('MOODLE_INTERNAL') || die();
  
-$plugin->version   = 2018021100;
+$plugin->version   = 2018021202;
 $plugin->requires  = 2016052305;
 $plugin->component = 'local_inlinetrainer_experiments';
 $plugin->dependencies = array(
