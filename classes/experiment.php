@@ -91,19 +91,18 @@ class local_inlinetrainer_experiments_experiment
         }
     }
 
-    static function get_users(){
-        $tag = core_tag_tag::get_by_name(0,'experiment_user');
-        $users = $tag->get_tagged_items('local_inlinetrainer_experiments', 'user');
-        return $users;
-    }
-
     static function get_courses(){
         $tag = core_tag_tag::get_by_name(0,'experiment_course');
-        $users = $tag->get_tagged_items('local_inlinetrainer_experiments', 'course');
-        return $users;
+        if($tag){
+            $users = $tag->get_tagged_items('local_inlinetrainer_experiments', 'course');
+            return $users;
+        }
+        return null;
     }
 
     public static function get_experiments(){
+
+        $courses = array();
         $courses = self::get_courses();
 
         $experiments = array();
