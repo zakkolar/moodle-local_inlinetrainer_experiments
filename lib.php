@@ -5,12 +5,12 @@ function local_inlinetrainer_experiments_add_navigation_links($navigation){
 
     include('version.php');
 
-    if(has_capability('local/inlinetrainer:researchtrainer', context_system::instance(), null, false)){
+    if(has_capability('local/inlinetrainer_experiments:experiment_researcher', context_system::instance(), null, false)){
         $trainer_menu_node = $navigation->add("Inline Trainer Experiments");
 
-        $url_base = "/local/inlinetrainer_experiments";
+        $trainer_menu_node->add('View Experiments',new moodle_url('/local/inlinetrainer_experiments/index.php'));
+        $trainer_menu_node->add('Experiment Settings',new moodle_url('/admin/settings.php',array('section'=>'local_inlinetrainer_experiments')));
 
-        $download_new_url = new moodle_url('/local/inlinetrainer/download_data.php');
 
 
 

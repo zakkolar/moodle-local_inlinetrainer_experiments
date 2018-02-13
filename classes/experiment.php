@@ -6,12 +6,20 @@ require_once(dirname(__FILE__).'/../../../config.php');
 
 class local_inlinetrainer_experiments_experiment
 {
-    private $user;
-    private $course;
+    public $user;
+    public $course;
 
-    public function __construct($user)
+    public function __construct($course)
     {
-        $this->user = $user;
+        $this->course = $course;
+        $users = get_enrolled_users(context_course::instance($course->id));
+        foreach($users as $user){
+            $tagged = core_tag_tag::is_item_tagged_with('local_inlinetrainer_experiments','user',$user->id,'experiment_user');
+            if($tagged){
+                $this->user = $user;
+            }
+        }
+
     }
 
     public static function create($firstname="Test",$lastname="User"){
@@ -41,10 +49,6 @@ class local_inlinetrainer_experiments_experiment
             }
             $instance = $DB->get_record('enrol', array('id' => $instanceid));
         }
-
-
-
-
 
         if(property_exists($CFG,'local_inlinetrainer_experiment_user_roles_course')){
             $roles = explode(",",$CFG->local_inlinetrainer_experiment_user_roles_course);
@@ -85,5 +89,29 @@ class local_inlinetrainer_experiments_experiment
         } else {
             return $username;
         }
+    }
+
+    static function get_users(){
+        $tag = core_tag_tag::get_by_name(0,'experiment_user');
+        $users = $tag->get_tagged_items('local_inlinetrainer_experiments', 'user');
+        return $users;
+    }
+
+    static function get_courses(){
+        $tag = core_tag_tag::get_by_name(0,'experiment_course');
+        $users = $tag->get_tagged_items('local_inlinetrainer_experiments', 'course');
+        return $users;
+    }
+
+    public static function get_experiments(){
+        $courses = self::get_courses();
+
+        $experiments = array();
+
+        foreach($courses as $course){
+            $experiments[] = new local_inlinetrainer_experiments_experiment($course);
+        }
+
+        return $experiments;
     }
 }
