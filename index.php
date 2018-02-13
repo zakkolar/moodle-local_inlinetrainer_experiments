@@ -18,6 +18,8 @@ $form = new local_inlinetrainer_experiments_experiment_form();
 
 if($new_experiment = $form->get_data()){
     local_inlinetrainer_experiments_experiment::create($new_experiment->firstname,$new_experiment->lastname);
+    \core\notification::success("{$new_experiment->firstname} {$new_experiment->lastname} experimental account added");
+    redirect(new moodle_url($PAGE->url));
 }
 
 echo $OUTPUT->header();
