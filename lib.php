@@ -1,7 +1,7 @@
 <?php
 
 function local_inlinetrainer_experiments_add_navigation_links($navigation){
-    global $trainer_menu_node,$CFG;
+    global $trainer_menu_node,$CFG, $USER;
 
     include('version.php');
 
@@ -15,6 +15,9 @@ function local_inlinetrainer_experiments_add_navigation_links($navigation){
 
 
     }
+
+    $navigation->add('Survey',new moodle_url(str_replace("#{id}",$USER->id,$CFG->local_inlinetrainer_experiment_survey_url)));
+
 }
 
 
