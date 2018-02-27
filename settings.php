@@ -149,4 +149,22 @@ if ( $hassiteconfig ){
 
     $settings->add($course_sections);
 
+    $survey_link = new admin_setting_configtext(
+        'local_inlinetrainer_experiment_survey_url',
+        'Survey URL',
+        'Use #{id} where you would like the user id to go',
+        ''
+    );
+
+    $settings->add($survey_link);
+
+    $num_sessions = new admin_setting_configtext(
+        'local_inlinetrainer_experiment_num_sessions',
+        'Number of sessions',
+        'Number of sessions (courses) to create',
+        '1'
+    );
+
+    $settings->add($num_sessions);
+
 }

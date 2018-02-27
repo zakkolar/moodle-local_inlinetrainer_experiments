@@ -36,16 +36,22 @@ $table->head = array(
     'Name',
     'Username',
     'Course',
-    'Log'
+    'Log',
+    'Survey'
 );
+
+
+
 foreach($experiments as $experiment){
     $log_link = new moodle_url('/report/log/index.php',array('chooselog'=>1,'user'=>$experiment->user->id));
     $course_link = new moodle_url('/course/view.php',array('id'=>$experiment->course->id));
+    $survey_link = str_replace("#{id}",$experiment->user->id,$CFG->local_inlinetrainer_experiment_survey_url);
     $table->data[] = array(
         $experiment->user->firstname." ".$experiment->user->lastname,
         $experiment->user->username,
         "<a href='$course_link'>{$experiment->course->shortname}</a>",
-        "<a href='$log_link'>View</a>"
+        "<a href='$log_link'>View</a>",
+        "<input type='text' value='$survey_link' onclick='this.select()'>",
     );
 }
 

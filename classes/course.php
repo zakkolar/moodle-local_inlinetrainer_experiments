@@ -12,13 +12,13 @@ class local_inlinetrainer_experiments_course
         $this->course = $course;
     }
 
-    public static function create(){
+    public static function create($session){
         global $CFG, $DB;
 
         $course = new stdClass();
 
-        $course->fullname=$CFG->local_inlinetrainer_experiments_course_fullname;
-        $course->shortname=self::increment_course_code($CFG->local_inlinetrainer_experiments_course_shortname);
+        $course->fullname=$CFG->local_inlinetrainer_experiments_course_fullname." S".$session;
+        $course->shortname=self::increment_course_code($CFG->local_inlinetrainer_experiments_course_shortname."S$session.");
         $course->category=$CFG->local_inlinetrainer_experiments_course_category;
 
 

@@ -22,19 +22,14 @@ class local_inlinetrainer_experiments_experiment
 
     }
 
-    public static function create($firstname="Test",$lastname="User"){
-
+    public static function enroll_user($user, $course){
         global $CFG, $DB;
-
-        $user = local_inlinetrainer_experiments_user::create($firstname,$lastname);
-        $course = local_inlinetrainer_experiments_course::create();
-
-        $coursecontext = context_course::instance($course->id);
-
         $enroll = enrol_get_plugin('manual');
 
 
         $instances = enrol_get_instances($course->id, true);
+
+
         $manualinstance = null;
         foreach ($instances as $instance) {
             if ($instance->name == 'manual') {
@@ -56,6 +51,29 @@ class local_inlinetrainer_experiments_experiment
                 $enroll->enrol_user($instance, $user->id, $role);
             }
         }
+    }
+
+    public static function create($firstname="Test",$lastname="User"){
+
+        global $CFG, $DB;
+
+        $user = local_inlinetrainer_experiments_user::create($firstname,$lastname);
+
+        $sessions = 1;
+
+        if(property_exists($CFG,'local_inlinetrainer_experiment_num_sessions')){
+           $sessions = intval($CFG->local_inlinetrainer_experiment_num_sessions);
+        }
+
+        for($i=$sessions; $i>0; $i--){
+            $course = local_inlinetrainer_experiments_course::create($i);
+
+            $coursecontext = context_course::instance($course->id);
+
+            self::enroll_user($user, $course);
+        }
+
+
 
 
     }
@@ -110,6 +128,14 @@ class local_inlinetrainer_experiments_experiment
         foreach($courses as $course){
             $experiments[] = new local_inlinetrainer_experiments_experiment($course);
         }
+
+        usort($experiments, function($a,$b){
+           $retval = strcasecmp($a->user->username, $b->user->username);
+           if($retval == 0){
+               $retval = strcasecmp($a->course->shortname, $b->course->shortname);
+           }
+           return $retval;
+        });
 
         return $experiments;
     }
