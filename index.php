@@ -2,6 +2,10 @@
 
 require_once('../../config.php');
 
+require('./hashids/Hashids.php');
+
+$hashids = new Hashids\Hashids($CFG->local_inlinetrainer_experiment_hash_salt, 4, 'abcdefghijkmnopq');
+
 require_login();
 
 require_capability('local/inlinetrainer_experiments:experiment_researcher', context_system::instance());
@@ -35,6 +39,7 @@ $table = new html_table();
 $table->head = array(
     'Name',
     'Username',
+    'Anonymous Identifier',
     'Course',
     'Log',
     'Survey'
@@ -49,6 +54,7 @@ foreach($experiments as $experiment){
     $table->data[] = array(
         $experiment->user->firstname." ".$experiment->user->lastname,
         $experiment->user->username,
+        $hashids->encode($experiment->user->id),
         "<a href='$course_link'>{$experiment->course->shortname}</a>",
         "<a href='$log_link'>View</a>",
         "<input type='text' value='$survey_link' onclick='this.select()'>",

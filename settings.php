@@ -166,5 +166,13 @@ if ( $hassiteconfig ){
     );
 
     $settings->add($num_sessions);
+    $hash_salt = new admin_setting_configtext(
+        'local_inlinetrainer_experiment_hash_salt',
+        'Hash salt',
+        'Salt for unique identifier hash',
+        'salt'
+    );
+
+    $settings->add($hash_salt);
 
 }
